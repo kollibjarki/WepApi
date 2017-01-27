@@ -18,6 +18,7 @@ namespace BlankAPI.Models.EF
         public Comments()
         {
             this.Likes = new HashSet<Likes>();
+            this.SubComments = new HashSet<SubComments>();
         }
     
         public int Id { get; set; }
@@ -29,5 +30,7 @@ namespace BlankAPI.Models.EF
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Likes> Likes { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SubComments> SubComments { get; set; }
     }
 }

@@ -39,6 +39,12 @@ namespace BlankAPI.Controllers
         {
             cq.RemoveComment(id);
         }
+        [HttpPost]
+        [Route("removeSub/{id}")]
+        public void RemoveSubComment(int id)
+        {
+            cq.RemoveSubComment(id);
+        }
         [HttpGet]
         [Route("getComments/{id}")]
         public IEnumerable<CommentDTO> GetComments(int id)

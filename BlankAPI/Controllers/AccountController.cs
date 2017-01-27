@@ -373,7 +373,6 @@ namespace BlankAPI.Controllers
             }
             return Ok();
         }
-        [AllowAnonymous]
         [HttpGet]
         [Route("isAdmin")]
         public bool IsAdmin()
@@ -381,7 +380,6 @@ namespace BlankAPI.Controllers
             var stuff = User.IsInRole("admin");
             return stuff;
         }
-        [AllowAnonymous]
         [Route("Admin")]
         public async Task<IHttpActionResult> Admin(AdminBindingModel model)
         {

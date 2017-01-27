@@ -40,10 +40,22 @@ namespace BlankAPI.Controllers
             //}
         }
         [HttpPost]
-        [Route("remove/{id}")]
-        public void RemoveProduct(int id)
+        [Route("disable/{id}")]
+        public void DisableProduct(int id)
         {
-            aq.RemoveProduct(id);
+            aq.DisableProduct(id);
+        }
+        [HttpPost]
+        [Route("enable/{id}")]
+        public void EnableProduct(int id)
+        {
+            aq.EnableProduct(id);
+        }
+        [HttpGet]
+        [Route("allinactive")]
+        public IEnumerable<ProductDTO> GetInActive()
+        {
+            return aq.GetInActiveProducts();
         }
     }
 }

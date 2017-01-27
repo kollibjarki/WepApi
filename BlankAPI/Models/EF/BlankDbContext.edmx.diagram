@@ -5,25 +5,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="507cf9d6a0d844dcb76375f99f41b3d3" Name="Diagram1" ZoomLevel="86">
-        <EntityTypeShape EntityType="blankdbModel.C__MigrationHistory" Width="1.5" PointX="9.75" PointY="4.75" />
-        <EntityTypeShape EntityType="blankdbModel.AspNetRoles" Width="1.5" PointX="2.75" PointY="8.5" />
-        <EntityTypeShape EntityType="blankdbModel.AspNetUserClaims" Width="1.5" PointX="7.25" PointY="7" />
-        <EntityTypeShape EntityType="blankdbModel.AspNetUserLogins" Width="1.5" PointX="7.25" PointY="9.75" />
-        <EntityTypeShape EntityType="blankdbModel.AspNetUsers" Width="1.5" PointX="5" PointY="7.375" />
-        <EntityTypeShape EntityType="blankdbModel.Basket" Width="1.5" PointX="5.25" PointY="3.75" />
-        <EntityTypeShape EntityType="blankdbModel.Category" Width="1.5" PointX="0.75" PointY="7.375" />
-        <EntityTypeShape EntityType="blankdbModel.Comments" Width="1.5" PointX="7.75" PointY="1" />
-        <EntityTypeShape EntityType="blankdbModel.Likes" Width="1.5" PointX="10" PointY="1.25" />
-        <EntityTypeShape EntityType="blankdbModel.Product" Width="1.5" PointX="3" PointY="2.125" />
-        <EntityTypeShape EntityType="blankdbModel.ProductInfo" Width="1.5" PointX="0.75" PointY="1.875" />
-        <EntityTypeShape EntityType="blankdbModel.Ratings" Width="1.5" PointX="5.25" PointY="1" />
-        <EntityTypeShape EntityType="blankdbModel.Staff" Width="1.5" PointX="9.75" PointY="7.75" />
-        <EntityTypeShape EntityType="blankdbModel.SubComments" Width="1.5" PointX="7.75" PointY="3.5" />
+        <EntityTypeShape EntityType="blankdbModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="blankdbModel.AspNetRoles" Width="1.5" PointX="7.75" PointY="3.125" />
+        <EntityTypeShape EntityType="blankdbModel.AspNetUserClaims" Width="1.5" PointX="12.25" PointY="1.625" />
+        <EntityTypeShape EntityType="blankdbModel.AspNetUserLogins" Width="1.5" PointX="12.25" PointY="4.375" />
+        <EntityTypeShape EntityType="blankdbModel.AspNetUsers" Width="1.5" PointX="10" PointY="2" />
+        <EntityTypeShape EntityType="blankdbModel.Basket" Width="1.5" PointX="5.25" PointY="7.625" />
+        <EntityTypeShape EntityType="blankdbModel.Category" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="blankdbModel.Comments" Width="1.5" PointX="7.75" PointY="8.875" />
+        <EntityTypeShape EntityType="blankdbModel.Likes" Width="1.5" PointX="10" PointY="10.75" />
+        <EntityTypeShape EntityType="blankdbModel.Orders" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="blankdbModel.Product" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="blankdbModel.ProductInfo" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="blankdbModel.Ratings" Width="1.5" PointX="5.25" PointY="1.875" />
+        <EntityTypeShape EntityType="blankdbModel.Staff" Width="1.5" PointX="0.75" PointY="11.375" />
+        <EntityTypeShape EntityType="blankdbModel.SubComments" Width="1.5" PointX="10" PointY="7.625" />
         <AssociationConnector Association="blankdbModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="blankdbModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="blankdbModel.FK_Basket_ToProduct" />
         <AssociationConnector Association="blankdbModel.FK_Product_ToCategory" />
         <AssociationConnector Association="blankdbModel.FK_Likes_ToComment" />
+        <AssociationConnector Association="blankdbModel.FK_SubComments_ToComments" />
+        <AssociationConnector Association="blankdbModel.FK_Orders_ToProduct" />
         <AssociationConnector Association="blankdbModel.FK_Product_ToInfo" />
         <AssociationConnector Association="blankdbModel.FK_Ratings_ToProduct" />
         <AssociationConnector Association="blankdbModel.AspNetUserRoles" />

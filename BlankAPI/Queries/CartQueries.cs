@@ -14,7 +14,6 @@ namespace BlankAPI.Queries
         {
             _db = new blankdbEntities();
         }
-
         public void AddToBasket(Basket basketItem)
         {
             var product = (from x in _db.Basket
@@ -22,11 +21,11 @@ namespace BlankAPI.Queries
                            select x).FirstOrDefault();
             if (product != null)
             {
-                product.Quantity++;
+                product.Quantity += basketItem.Quantity;
             }
             if (product == null)
             {
-                basketItem.Quantity = 1;
+                basketItem.Quantity = basketItem.Quantity;
                 _db.Basket.Add(basketItem);
             }
             _db.SaveChanges();
@@ -58,7 +57,7 @@ namespace BlankAPI.Queries
             _db.SaveChanges();
             
         }
-        public void RemoveFromBasket(Basket basketitem)
+        public void RemoveSingleFromBasket(Basket basketitem)
         {
             var product = (from x in _db.Basket
                            where x.UserId == basketitem.UserId && x.ProductId == basketitem.ProductId
@@ -73,6 +72,17 @@ namespace BlankAPI.Queries
                 {
                     product.Quantity--;
                 }
+                _db.SaveChanges();
+            }
+        }
+        public void RemoveItemFromBasket(Basket basketitem)
+        {
+            var product = (from x in _db.Basket
+                           where x.UserId == basketitem.UserId && x.ProductId == basketitem.ProductId
+                           select x).FirstOrDefault();
+            if (product != null)
+            {
+                _db.Basket.Remove(product);
                 _db.SaveChanges();
             }
         }
@@ -93,6 +103,7 @@ namespace BlankAPI.Queries
                              };
             return items;
         }
+
         public void EmptyBasket(string UserName)
         {
             var basketItems = from x in _db.Basket

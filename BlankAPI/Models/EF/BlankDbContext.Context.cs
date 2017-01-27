@@ -34,6 +34,7 @@ namespace BlankAPI.Models.EF
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Likes> Likes { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductInfo> ProductInfo { get; set; }
         public virtual DbSet<Ratings> Ratings { get; set; }

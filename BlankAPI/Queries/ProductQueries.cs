@@ -27,26 +27,21 @@ namespace BlankAPI.Queries
                              };
             return categories;
         }
-        public IEnumerable<ProductDTO> GetAllProducts() //virkar get all Fyrir  admin
+        public IEnumerable<ProductDTO> GetAllForSearch()
         {
             var product = from p in _db.Product
+                          where p.IsActive == 0
                           select new ProductDTO()
                           {
                               Id = p.Id,
-                              Name = p.Name,
-                              Views = p.ProductInfo.Views,
-                              Price = p.ProductInfo.Price,
-                              DiscPrice = p.ProductInfo.Price - (p.ProductInfo.Price * p.ProductInfo.Discount / 100),
-                              Discount = p.ProductInfo.Discount,
-                              CategoryName = p.Category.Name,
-                              Description = p.ProductInfo.Description,
-                              ImageUrl = p.ProductInfo.ImageUrl
+                              Name = p.Name
                           };
             return product;
         }
         public IEnumerable<ProductDTO> GetPopular()    //get popular / skilar 9 most viewed products
         {
             var product = from p in _db.Product
+                          where p.IsActive == 0
                           select new ProductDTO()
                           {
                               Id = p.Id,
@@ -64,7 +59,7 @@ namespace BlankAPI.Queries
         public IEnumerable<ProductDTO> GetOnSale()    //get products on sale
         {
             var product = from p in _db.Product
-                          where p.ProductInfo.Discount > 0
+                          where p.ProductInfo.Discount > 0 & p.IsActive == 0
                           select new ProductDTO()
                           {
                               Id = p.Id,
@@ -80,7 +75,7 @@ namespace BlankAPI.Queries
         public IEnumerable<ProductDTO> GetList(string categoryName) //virkar /grid/{categoryName}
         {
             var list = from p in _db.Product
-                       where p.Category.Name == categoryName
+                       where p.Category.Name == categoryName & p.IsActive == 0
                        select new ProductDTO()
                        {
                            Id = p.Id,
@@ -93,7 +88,7 @@ namespace BlankAPI.Queries
             return list;
         }
         public static List<int> oldIdList = new List<int> { 0, 0 };
-        public IQueryable<ProductDTO> GetById(int id) //virkar get /item/{id}
+        public ProductDTO GetById(int id) //virkar get /item/{id}
         {
             oldIdList.Add(id); //semi fix if refresh eða beint revisit //uppá comment eða rating refresh
             oldIdList.RemoveAt(0); 
@@ -130,7 +125,9 @@ namespace BlankAPI.Queries
                           {
                               Id = p.Id,
                               Name = p.Name,
+                              IsActive = p.IsActive,
                               CategoryName = p.Category.Name,
+                              CategoryId = p.Category.Id,
                               Price = p.ProductInfo.Price,
                               DiscPrice = p.ProductInfo.Price - (p.ProductInfo.Price * p.ProductInfo.Discount / 100),
                               AvgRating = calcRating,
@@ -140,7 +137,7 @@ namespace BlankAPI.Queries
                               Description = p.ProductInfo.Description,
                               ImageUrl = p.ProductInfo.ImageUrl
                           };
-            return product;
+            return product.FirstOrDefault();
         }
     }
 }

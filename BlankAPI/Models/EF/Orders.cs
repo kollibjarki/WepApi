@@ -12,15 +12,15 @@ namespace BlankAPI.Models.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class SubComments
+    public partial class Orders
     {
         public int Id { get; set; }
-        public int CommentId { get; set; }
+        public int ProductId { get; set; }
         public string UserId { get; set; }
-        public string Comment { get; set; }
-        public System.DateTime DateSubmitted { get; set; }
-        public int NumberOfLikes { get; set; }
+        public int Quantity { get; set; }
+        public System.DateTime OrderDate { get; set; }
+        public System.DateTime DeliveryDate { get; set; }
     
-        public virtual Comments Comments { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

@@ -223,6 +223,7 @@
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RatingsController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DTO\CategoryDTO.cs" />
     <Compile Include="Models\DTO\CommentDTO.cs" />
+    <Compile Include="Models\DTO\OrderDTO.cs" />
     <Compile Include="Models\DTO\ProductDTO.cs" />
     <Compile Include="Models\DTO\RatingDTO.cs" />
     <Compile Include="Models\DTO\StaffDTO.cs" />
@@ -281,6 +283,9 @@
     <Compile Include="Models\EF\Likes.cs">
       <DependentUpon>BlankDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EF\Orders.cs">
+      <DependentUpon>BlankDbContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EF\Product.cs">
       <DependentUpon>BlankDbContext.tt</DependentUpon>
     </Compile>
@@ -302,6 +307,7 @@
     <Compile Include="Queries\AdminQueries.cs" />
     <Compile Include="Queries\CartQueries.cs" />
     <Compile Include="Queries\CommentQueries.cs" />
+    <Compile Include="Queries\OrdersQueries.cs" />
     <Compile Include="Queries\ProductQueries.cs" />
     <Compile Include="Queries\RatingQueries.cs" />
     <Compile Include="Queries\StaffQueries.cs" />

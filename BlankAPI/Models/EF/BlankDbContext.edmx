@@ -103,6 +103,17 @@
           <Property Name="CommentId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="DeliveryDate" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -111,6 +122,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
           <Property Name="InfoId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="tinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductInfo">
           <Key>
@@ -151,9 +163,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CommentId" Type="int" Nullable="false" />
-          <Property Name="UserId" Type="nchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DateSubmitted" Type="datetime" Nullable="false" />
           <Property Name="NumberOfLikes" Type="int" Nullable="false" />
@@ -244,6 +256,21 @@ warning 6035: The relationship 'FK_Basket_ToAspNetUsers' has columns that are no
         <!--Errors Found During Generation:
 warning 6035: The relationship 'FK_Likes_ToUser' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
         <Association Name="FK_Likes_ToUser" />-->
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_Orders_ToAspNetUsers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_Orders_ToAspNetUsers" />-->
+        <Association Name="FK_Orders_ToProduct">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Product_ToCategory">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
           <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -283,6 +310,18 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SubComments_ToComments">
+          <End Role="Comments" Type="Self.Comments" Multiplicity="1" />
+          <End Role="SubComments" Type="Self.SubComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubComments">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="blankdbModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -294,6 +333,7 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductInfo" EntityType="Self.ProductInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ratings" EntityType="Self.Ratings" Schema="dbo" store:Type="Tables" />
@@ -323,6 +363,10 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
             <End Role="Comments" EntitySet="Comments" />
             <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_ToProduct" Association="Self.FK_Orders_ToProduct">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Product_ToCategory" Association="Self.FK_Product_ToCategory">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
@@ -334,6 +378,10 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <AssociationSet Name="FK_Ratings_ToProduct" Association="Self.FK_Ratings_ToProduct">
             <End Role="Product" EntitySet="Product" />
             <End Role="Ratings" EntitySet="Ratings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubComments_ToComments" Association="Self.FK_SubComments_ToComments">
+            <End Role="Comments" EntitySet="Comments" />
+            <End Role="SubComments" EntitySet="SubComments" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -350,6 +398,7 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <EntitySet Name="Category" EntityType="blankdbModel.Category" />
           <EntitySet Name="Comments" EntityType="blankdbModel.Comments" />
           <EntitySet Name="Likes" EntityType="blankdbModel.Likes" />
+          <EntitySet Name="Orders" EntityType="blankdbModel.Orders" />
           <EntitySet Name="Product" EntityType="blankdbModel.Product" />
           <EntitySet Name="ProductInfo" EntityType="blankdbModel.ProductInfo" />
           <EntitySet Name="Ratings" EntityType="blankdbModel.Ratings" />
@@ -374,6 +423,14 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <AssociationSet Name="FK_Likes_ToComment" Association="blankdbModel.FK_Likes_ToComment">
             <End Role="Comments" EntitySet="Comments" />
             <End Role="Likes" EntitySet="Likes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubComments_ToComments" Association="blankdbModel.FK_SubComments_ToComments">
+            <End Role="Comments" EntitySet="Comments" />
+            <End Role="SubComments" EntitySet="SubComments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_ToProduct" Association="blankdbModel.FK_Orders_ToProduct">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Product_ToInfo" Association="blankdbModel.FK_Product_ToInfo">
             <End Role="ProductInfo" EntitySet="ProductInfo" />
@@ -478,6 +535,7 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <Property Name="DateSubmitted" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="NumberOfLikes" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Likes" Relationship="blankdbModel.FK_Likes_ToComment" FromRole="Comments" ToRole="Likes" />
+          <NavigationProperty Name="SubComments" Relationship="blankdbModel.FK_SubComments_ToComments" FromRole="Comments" ToRole="SubComments" />
         </EntityType>
         <EntityType Name="Likes">
           <Key>
@@ -488,6 +546,18 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <Property Name="UserId" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Comments" Relationship="blankdbModel.FK_Likes_ToComment" FromRole="Likes" ToRole="Comments" />
         </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Product" Relationship="blankdbModel.FK_Orders_ToProduct" FromRole="Orders" ToRole="Product" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Id" />
@@ -496,8 +566,10 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <Property Name="Name" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
           <Property Name="InfoId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Byte" Nullable="false" />
           <NavigationProperty Name="Basket" Relationship="blankdbModel.FK_Basket_ToProduct" FromRole="Product" ToRole="Basket" />
           <NavigationProperty Name="Category" Relationship="blankdbModel.FK_Product_ToCategory" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Orders" Relationship="blankdbModel.FK_Orders_ToProduct" FromRole="Product" ToRole="Orders" />
           <NavigationProperty Name="ProductInfo" Relationship="blankdbModel.FK_Product_ToInfo" FromRole="Product" ToRole="ProductInfo" />
           <NavigationProperty Name="Ratings" Relationship="blankdbModel.FK_Ratings_ToProduct" FromRole="Product" ToRole="Ratings" />
         </EntityType>
@@ -542,12 +614,13 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CommentId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="256" FixedLength="true" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DateSubmitted" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="NumberOfLikes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="blankdbModel.FK_SubComments_ToComments" FromRole="SubComments" ToRole="Comments" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="blankdbModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
@@ -610,6 +683,30 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
             </Principal>
             <Dependent Role="Likes">
               <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubComments_ToComments">
+          <End Type="blankdbModel.Comments" Role="Comments" Multiplicity="1" />
+          <End Type="blankdbModel.SubComments" Role="SubComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubComments">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_ToProduct">
+          <End Type="blankdbModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="blankdbModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -743,9 +840,22 @@ warning 6035: The relationship 'FK_Ratings_ToAspNetUsers' has columns that are n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="blankdbModel.Orders">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="blankdbModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="InfoId" ColumnName="InfoId" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

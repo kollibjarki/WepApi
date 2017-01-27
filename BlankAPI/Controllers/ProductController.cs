@@ -27,10 +27,10 @@ namespace BlankAPI.Controllers
             return pq.GetCat();
         }
         [HttpGet]
-        [Route("allproducts")]
-        public IEnumerable<ProductDTO> GetAll()
+        [Route("getsearch")]
+        public IEnumerable<ProductDTO> GetForSearch()
         {
-            return pq.GetAllProducts();
+            return pq.GetAllForSearch();
         }
         [HttpGet]
         [Route("getpopular")]
@@ -52,7 +52,7 @@ namespace BlankAPI.Controllers
         }
         [HttpGet]
         [Route("item/{id}")]
-        public IQueryable<ProductDTO> GetItemById(int id)
+        public ProductDTO GetItemById(int id)
         {
             return pq.GetById(id);
         }

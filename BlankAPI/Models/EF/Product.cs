@@ -18,6 +18,7 @@ namespace BlankAPI.Models.EF
         public Product()
         {
             this.Basket = new HashSet<Basket>();
+            this.Orders = new HashSet<Orders>();
             this.Ratings = new HashSet<Ratings>();
         }
     
@@ -25,10 +26,13 @@ namespace BlankAPI.Models.EF
         public string Name { get; set; }
         public int CategoryId { get; set; }
         public int InfoId { get; set; }
+        public byte IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Basket> Basket { get; set; }
         public virtual Category Category { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
         public virtual ProductInfo ProductInfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Ratings> Ratings { get; set; }

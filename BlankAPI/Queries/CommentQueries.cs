@@ -47,25 +47,41 @@ namespace BlankAPI.Queries
             {
                 _db.Likes.Remove(x);
             }
+            var getSub = from x in _db.SubComments  //finna og eyða subcomments (if any)
+                         where x.CommentId == id
+                         select x;
+            foreach (SubComments x in getSub)
+            {
+                _db.SubComments.Remove(x);
+            }
             var comment = (from x in _db.Comments
                            where id == x.Id
                            select x).FirstOrDefault();
             _db.Comments.Remove(comment);
             _db.SaveChanges();
         }
-
+        public void RemoveSubComment(int id)
+        {
+            var subComment = (from x in _db.SubComments  //finna og eyða subcomments (if any)
+                         where x.Id == id
+                         select x).FirstOrDefault();
+            _db.SubComments.Remove(subComment);
+            _db.SaveChanges();
+        }
         public IQueryable<CommentDTO> GetComments(int id)
         {
             var com = from x in _db.Comments
                       where x.ProductId == id
-                      select new CommentDTO() {
+                      select new CommentDTO()
+                      {
                           Id = x.Id,
                           Comment = x.Comment,
-                          UserName = x.UserId,
+                          UserId = x.UserId,
                           ProductId = x.ProductId,
                           NumberOfLikes = x.NumberOfLikes,
-                          DateAdded = x.DateSubmitted
-                       };
+                          DateSubmitted = x.DateSubmitted,
+                          SubCom = x.SubComments
+                      };
             return com;
         } 
 

@@ -54,54 +54,48 @@ namespace BlankAPI.Queries
 
             return product;
         }
-        public void RemoveProduct(int id) //virkar 
+
+        public void DisableProduct(int id)
         {
             var product = (from x in _db.Product
-                         where x.Id == id
-                         select x).FirstOrDefault();
+                           where x.Id == id
+                           select x).FirstOrDefault();
             if (product != null)
             {
-                var cleanBasket = (from x in _db.Basket //Athugar hvort item se til í basket
-                           where x.ProductId == id
-                           select x);
-                foreach (Basket x in cleanBasket)
-                {
-                    _db.Basket.Remove(x);
-                }
-                var cleanComments = (from x in _db.Comments //Athugar hvort það sé comment á vöru
-                                   where x.ProductId == id
-                                   select x);
-                foreach (Comments x in cleanComments)
-                {
-                    var cleanLikes = (from y in _db.Likes  //Athugar hvort það sé like á comment
-                                      where y.CommentId == x.Id
-                                      select y);
-                    foreach (Likes y in cleanLikes)
-                    {
-                        _db.Likes.Remove(y);
-                    }
-                    _db.Comments.Remove(x);
-                }
-                var cleanRatings = (from x in _db.Ratings //Athugar hvort það séu til ratings
-                                   where x.ProductId == id
-                                   select x);
-                foreach(Ratings x in cleanRatings)
-                {
-                    _db.Ratings.Remove(x);
-                }
-                var cleanInfoId = (from x in _db.Product
-                                   where x.Id == id
-                                   select x.InfoId).FirstOrDefault(); //Athugar info Id
-                var cleanInfo = (from x in _db.ProductInfo
-                                 where x.Id == cleanInfoId
-                                 select x);                     //Finnur info Id i ProductInfo
-                foreach (ProductInfo x in cleanInfo)
-                {
-                    _db.ProductInfo.Remove(x);
-                }
-                _db.Product.Remove(product);
+                product.IsActive = 1;
                 _db.SaveChanges();
             }
         }
+        public void EnableProduct(int id)
+        {
+            var product = (from x in _db.Product
+                           where x.Id == id
+                           select x).FirstOrDefault();
+            if (product != null)
+            {
+                product.IsActive = 0;
+                _db.SaveChanges();
+            }
+        }
+        public IEnumerable<ProductDTO> GetInActiveProducts() //Fyrir  admin
+        {
+            var products = from p in _db.Product
+                          where p.IsActive == 1
+                          select new ProductDTO()
+                          {
+                              Id = p.Id,
+                              Name = p.Name,
+                              IsActive = p.IsActive,
+                              Views = p.ProductInfo.Views,
+                              Price = p.ProductInfo.Price,
+                              DiscPrice = p.ProductInfo.Price - (p.ProductInfo.Price * p.ProductInfo.Discount / 100),
+                              Discount = p.ProductInfo.Discount,
+                              CategoryName = p.Category.Name,
+                              Description = p.ProductInfo.Description,
+                              ImageUrl = p.ProductInfo.ImageUrl
+                          };
+            return products;
+        }
+    
     }
 }

@@ -36,7 +36,13 @@ namespace BlankAPI.Controllers
         [Route("remove")]
         public void Remove(Basket basketitem)
         {
-            cq.RemoveFromBasket(basketitem);
+            cq.RemoveSingleFromBasket(basketitem);
+        }
+        [HttpPost]
+        [Route("removeItem")]
+        public void RemoveItem(Basket basketitem)
+        {
+            cq.RemoveItemFromBasket(basketitem);
         }
         [HttpGet]
         [Route("getbasket/{userName}")]
